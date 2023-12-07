@@ -1,5 +1,9 @@
 package com.eulerity.hackathon.imagefinder;
 
+import com.eulerity.hackathon.imagefinder.ImageData;
+
+import com.google.gson.Gson;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -7,28 +11,36 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Crawler {
-    protected static void crawl(int level, String url, ArrayList<String> visitedUrls, PrintWriter out) {
-		if (level <= 5) {
-			Document doc = request(url, visitedUrls, out);
+	public static void main(String[] args) {
+		String url = "https://unsplash.com/";
+		crawl(1, url, new ArrayList<String>(), new ArrayList<ImageData>(), new String());
+	}
+
+    protected static void crawl(int level, String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList, String json) {
+		if (level == 5) {
+			json = new Gson().toJson(imageList);
+			System.out.println(json);
+		}
+		else if (level <= 4) {
+			Document doc = request(url, visitedUrls, imageList);
 
 			if (doc != null) {
 				for (Element link : doc.select("a[href]")) {
 					String hrefValue = link.absUrl("href");
 					if (!visitedUrls.contains(hrefValue)) {
-						crawl(++level, hrefValue, visitedUrls, out);
+						crawl(++level, hrefValue, visitedUrls, imageList, json);
 					}
 				}
 			}
 		}
 	}
 
-	protected static Document request(String url, ArrayList<String> visited, PrintWriter out) {
+	protected static Document request(String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList) {
 		try {
 			Connection con = Jsoup.connect(url);
 			Document doc = con.get();
@@ -37,13 +49,20 @@ public class Crawler {
 			if (con.response().statusCode() == 200) {
 				for (Element image : images) {
 					if (image.attr("alt") != "") {
-						out.println("Image Title: " + image.attr("alt"));
+						ImageData newImage = new ImageData(image.attr("alt"), image.attr("abs:src"));
+						imageList.add(newImage);
+						// System.out.println(newImage.title);
+						// System.out.println(newImage.imageUrl);
+						// System.out.println(newImage.logoOrIcon);
 					} else {
-						out.println("Image Title: N/A");
+						ImageData newImage = new ImageData(image.attr("abs:src"));
+						imageList.add(newImage);
+						// System.out.println(newImage.title);
+						// System.out.println(newImage.imageUrl);
+						// System.out.println(newImage.logoOrIcon);
 					}
-					out.println("Link: " + image.attr("src"));
 				}
-				visited.add(url);
+				visitedUrls.add(url);
 				return doc;
 			}
 		} catch (IOException e) {

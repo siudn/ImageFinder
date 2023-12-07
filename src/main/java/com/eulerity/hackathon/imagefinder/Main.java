@@ -1,20 +1,34 @@
 package com.eulerity.hackathon.imagefinder;
 
-import com.eulerity.hackathon.imagefinder.Crawler;
-
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class Main extends HttpServlet {
-	public void service(HttpServletRequest req, HttpServletResponse res ) throws IOException {
-		String url = req.getParameter("url");
-		PrintWriter out = res.getWriter();
-		String json = Crawler.crawl(1, url, new ArrayList<String>(), new ArrayList<ImageData>(), new String());
-		out.println(json);
+	protected static final Gson gson = new GsonBuilder().create();
+
+	public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		JsonElement jsonElement = new JsonParser().parse(req.getReader());
+		JsonObject jsonObject = jsonElement.getAsJsonObject();
+
+		String url = jsonObject.get("url").getAsString();
+
+		ArrayList<ImageData> images = new ArrayList<ImageData>();
+		images = Crawler.crawl(1, url, new ArrayList<String>(), images);
+		
+		res.setContentType("application/json");
+		res.getWriter().write(gson.toJson(images));
 	}
 }

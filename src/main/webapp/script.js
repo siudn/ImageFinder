@@ -1,21 +1,19 @@
 const urlForm = document.querySelector(".form");
-const inputUrl = document.querySelector("#url").value;
+const inputUrl = document.querySelector("#url");
 
 urlForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  const formData = new FormData(urlForm);
-  const data = new URLSearchParams(formData);
-
-  sendImageLink(data);
+  console.log(inputUrl.value);
+  getImages(inputUrl.value);
 });
 
-function sendImageLink(url) {
-  fetch("http://localhost:8080", {
+function getImages(inputUrl) {
+  fetch("http://localhost:8080/crawl", {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ link: url }),
+    body: JSON.stringify({ url: inputUrl }),
   })
     .then((res) => res.json())
     .then((data) => console.log(data))

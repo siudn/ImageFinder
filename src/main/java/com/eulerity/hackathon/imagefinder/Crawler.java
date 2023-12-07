@@ -17,14 +17,15 @@ import java.util.logging.Logger;
 
 public class Crawler {
 	public static void main(String[] args) {
-		String url = "https://unsplash.com/";
-		crawl(1, url, new ArrayList<String>(), new ArrayList<ImageData>(), new String());
+		String url = "https://en.wikipedia.org";
+		String json = crawl(1, url, new ArrayList<String>(), new ArrayList<ImageData>(), new String());
+		System.out.println(json);
 	}
 
-    protected static void crawl(int level, String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList, String json) {
+    protected static String crawl(int level, String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList, String json) {
 		if (level == 5) {
 			json = new Gson().toJson(imageList);
-			System.out.println(json);
+			return json;
 		}
 		else if (level <= 4) {
 			Document doc = request(url, visitedUrls, imageList);
@@ -33,11 +34,12 @@ public class Crawler {
 				for (Element link : doc.select("a[href]")) {
 					String hrefValue = link.absUrl("href");
 					if (!visitedUrls.contains(hrefValue)) {
-						crawl(++level, hrefValue, visitedUrls, imageList, json);
+						return crawl(++level, hrefValue, visitedUrls, imageList, json);
 					}
 				}
 			}
 		}
+		return "Data unavailable.";
 	}
 
 	protected static Document request(String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList) {

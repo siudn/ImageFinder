@@ -1,8 +1,6 @@
 package com.eulerity.hackathon.imagefinder;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -29,6 +27,6 @@ public class Main extends HttpServlet {
 		images = Crawler.crawl(1, url, new ArrayList<String>(), images);
 		
 		res.setContentType("application/json");
-		res.getWriter().write(gson.toJson(images));
+		res.getWriter().write(gson.toJson(images)); // convert ArrayList to JSON
 	}
 }

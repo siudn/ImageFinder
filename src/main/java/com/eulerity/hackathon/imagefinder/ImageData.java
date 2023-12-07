@@ -5,20 +5,20 @@ public class ImageData {
     public String imageUrl;
     public boolean logoOrIcon;
 
-    public ImageData(String title, String imageUrl) {
+    public ImageData(String title, String imageUrl) { // primary constructor
         this.title = title;
         this.imageUrl = imageUrl;
-        if (endsWithSvgOrPng(imageUrl)) {
+        if (endsWithSvgOrPng(title, imageUrl)) {
             this.logoOrIcon = true;
         }
     }
 
-    public ImageData(String imageUrl) {
+    public ImageData(String imageUrl) { // constructor if no "alt" available
         this("N/A", imageUrl);
     }
 
-    public boolean endsWithSvgOrPng(String url) {
+    public boolean endsWithSvgOrPng(String alt, String url) { // checks if image is a logo
         String lowercaseUrl = url.toLowerCase();
-        return lowercaseUrl.endsWith(".svg") || lowercaseUrl.endsWith(".png");
+        return lowercaseUrl.endsWith(".svg") || lowercaseUrl.endsWith(".png") || alt.contains("logo");
     }
 }

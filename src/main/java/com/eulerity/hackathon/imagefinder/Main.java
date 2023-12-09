@@ -22,9 +22,15 @@ public class Main extends HttpServlet {
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 
 		String url = jsonObject.get("url").getAsString();
-
 		ArrayList<ImageData> images = new ArrayList<ImageData>();
-		images = Crawler.crawl(1, url, new ArrayList<String>(), images);
+
+		Crawler test = new Crawler(url, images);
+
+		try {
+			test.getThread().join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		res.setContentType("application/json");
 		res.getWriter().write(gson.toJson(images)); // convert ArrayList to JSON

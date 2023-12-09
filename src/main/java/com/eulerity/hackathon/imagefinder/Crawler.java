@@ -1,57 +1,83 @@
 package com.eulerity.hackathon.imagefinder;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+public class Crawler implements Runnable {
+    private static final int MAX_DEPTH = 3; // change this value if you want more/less pages
+    private ArrayList<String> visitedLinks = new ArrayList<String>();
+    private ArrayList<ImageData> imageList = new ArrayList<ImageData>();
+    private String first_link;
+    private Thread thread;
 
-public class Crawler {
-    protected static ArrayList<ImageData> crawl(int level, String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList) {
-		if (level <= 3) { // limited to 3 levels deep
-			Document doc = request(url, visitedUrls, imageList);
+    public Crawler(String link, ArrayList<ImageData> images) {
+        first_link = link;
+        imageList = images;
 
-			if (doc != null) {
-				for (Element link : doc.select("a[href]")) { // selects all links on the page
-					String hrefValue = link.absUrl("href");
-					if (!visitedUrls.contains(hrefValue)) { // checks that link was not yet visited
-						return crawl(++level, hrefValue, visitedUrls, imageList); 
-						// recursively runs the crawl on this link
-					}
-				}
-			}
-		}
-		return imageList;
-	}
+        thread = new Thread(this);
+        thread.start();
+    }
 
-	protected static Document request(String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList) {
-		try {
-			Connection con = Jsoup.connect(url);
-			Document doc = con.get();
-			Elements images = doc.select("img"); // selects all images on the page
+    @Override
+    public void run() {
+        crawl(1, first_link, first_link);
+    }
 
-			if (con.response().statusCode() == 200) {
-				for (Element image : images) {
+    protected ArrayList<ImageData> crawl(int level, String url, String origUrl) {
+        if (level <= MAX_DEPTH) {
+            Document doc = request(url);
+
+            if (doc != null) {
+                for (Element link : doc.select("a[href]")) {
+                    String next_link = link.absUrl("href");
+                    if (validLink(next_link) && next_link.contains(origUrl)) {
+                        System.out.println("Crawling " + next_link + "...");
+                        return crawl(level++, next_link, origUrl);
+                    }
+                }
+            }
+        }
+        return imageList;
+    }
+
+    private Document request(String url) {
+        try {
+            Connection con = Jsoup.connect(url);
+            Document doc = con.get();
+
+            if (con.response().statusCode() == 200) {
+                Elements images = doc.select("img");
+                for (Element image : images) {
 					// if alt is provided, construct with alt, otherwise construct only with url
-					if (image.attr("alt") != "") { 
+					if (!image.attr("alt").isEmpty() && !image.attr("abs:src").isEmpty()) { 
 						ImageData newImage = new ImageData(image.attr("alt"), image.attr("abs:src"));
 						imageList.add(newImage); // add image to ArrayList of images
-					} else {
+					} else if (image.attr("alt").isEmpty() && !image.attr("abs:src").isEmpty()) {
 						ImageData newImage = new ImageData(image.attr("abs:src"));
 						imageList.add(newImage);
 					}
 				}
-				visitedUrls.add(url); // add url to list of visited URLs
+                visitedLinks.add(url);
 				return doc;
-			}
-		} catch (IOException e) {
-			Logger.getGlobal().log(Level.WARNING, "Error");
-		}
-		return null;
-	}
+            }
+            return null;
+        } 
+        catch (IOException e) {
+            return null;
+        }
+    }
+
+    private boolean validLink(String url) {
+        return !url.contains("#") && !visitedLinks.contains(url);
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
 }

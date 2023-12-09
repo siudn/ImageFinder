@@ -4,8 +4,9 @@ let output = document.querySelector(".output");
 
 urlForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  output.innerHTML = ``;
   console.log(inputUrl.value);
-  displayImages(getImages(inputUrl.value));
+  getImages(inputUrl.value);
 });
 
 async function getImages(inputUrl) {
@@ -18,18 +19,26 @@ async function getImages(inputUrl) {
       body: JSON.stringify({ url: inputUrl }),
     });
     const data = await res.json();
-    return data;
+    console.log(data);
+
+    data.forEach((image) => {
+      let newSection = document.createElement("div");
+      let newImage = document.createElement("img");
+      newImage.setAttribute("src", image.imageUrl);
+      newImage.setAttribute("alt", image.title);
+      newSection.appendChild(newImage);
+
+      if (image.logoOrIcon) {
+        let logoOrIcon = document.createElement("p");
+        logoOrIcon.innerHTML = image.logoOrIcon
+          ? "<h3>The image directly above contains logos or icons.<h3>"
+          : null;
+        newSection.appendChild(logoOrIcon);
+      }
+
+      output.appendChild(newSection);
+    });
   } catch (error) {
     console.error("Error: ", error);
   }
-}
-
-async function displayImages(imageList) {
-  await imageList;
-  imageList.forEach((image) => {
-    let newImage = document.createElement("img");
-    newImage.setAttribute("src", image.imageUrl);
-    newImage.setAttribute("alt", image.title);
-    output.appendChild(newImage);
-  });
 }

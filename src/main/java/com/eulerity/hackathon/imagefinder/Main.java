@@ -22,17 +22,18 @@ public class Main extends HttpServlet {
 		JsonObject jsonObject = jsonElement.getAsJsonObject();
 
 		String url = jsonObject.get("url").getAsString();
+		// parse JSON for url string
 		ArrayList<ImageData> images = new ArrayList<ImageData>();
 
-		Crawler test = new Crawler(url, images);
+		Crawler bot = new Crawler(url, images);
 
 		try {
-			test.getThread().join();
+			bot.getThread().join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		
-		res.setContentType("application/json");
+		res.setContentType("application/json"); // set response type as JSON
 		res.getWriter().write(gson.toJson(images)); // convert ArrayList to JSON
 	}
 }

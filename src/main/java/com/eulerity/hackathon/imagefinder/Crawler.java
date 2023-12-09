@@ -17,6 +17,7 @@ public class Crawler implements Runnable {
     private Thread thread;
 
     public Crawler(String link, ArrayList<ImageData> images) {
+        // crawler constructor
         first_link = link;
         imageList = images;
 
@@ -35,10 +36,13 @@ public class Crawler implements Runnable {
 
             if (doc != null) {
                 for (Element link : doc.select("a[href]")) {
+                    // selects all links on the page
                     String next_link = link.absUrl("href");
                     if (validLink(next_link) && next_link.contains(origUrl)) {
+                        // calls validLink function (below) and stays within domain
                         System.out.println("Crawling " + next_link + "...");
                         return crawl(level++, next_link, origUrl);
+                        // recusively crawls on next webpage
                     }
                 }
             }
@@ -53,6 +57,7 @@ public class Crawler implements Runnable {
 
             if (con.response().statusCode() == 200) {
                 Elements images = doc.select("img");
+                // selects all img elements on webpage
                 for (Element image : images) {
 					// if alt is provided, construct with alt, otherwise construct only with url
 					if (!image.attr("alt").isEmpty() && !image.attr("abs:src").isEmpty()) { 
@@ -63,7 +68,7 @@ public class Crawler implements Runnable {
 						imageList.add(newImage);
 					}
 				}
-                visitedLinks.add(url);
+                visitedLinks.add(url); // add url to visitedLinks arrayList
 				return doc;
             }
             return null;
@@ -74,6 +79,7 @@ public class Crawler implements Runnable {
     }
 
     private boolean validLink(String url) {
+        // checks that link is not a section of the same page & it hasn't been visited
         return !url.contains("#") && !visitedLinks.contains(url);
     }
 

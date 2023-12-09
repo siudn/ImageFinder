@@ -1,3 +1,4 @@
+NOTE: Run "mvn clean package jetty:run" (not "mvn clean package test jetty:run")
 Please paste your list of test URLs below:
 
 https://time.com/ 

@@ -1,6 +1,6 @@
 # ImageFinder
 
-Eulerity project: an image-scraping web crawler.
+Eulerity project: a multithreaded image-scraping web crawler.
 
 > [!NOTE]
 > Run `mvn clean package jetty:run` instead of `mvn clean package test jetty:run`.

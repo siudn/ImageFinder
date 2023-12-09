@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class Crawler {
     protected static ArrayList<ImageData> crawl(int level, String url, ArrayList<String> visitedUrls, ArrayList<ImageData> imageList) {
-		if (level <= 4) { // limited to 4 levels deep
+		if (level <= 3) { // limited to 3 levels deep
 			Document doc = request(url, visitedUrls, imageList);
 
 			if (doc != null) {

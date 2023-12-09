@@ -1,0 +1,50 @@
+body {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+}
+
+.imageSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main {
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  width: 350px;
+  height: 20px;
+  border-radius: 2px;
+  border: 1px solid black;
+}
+
+button {
+  margin-top: 1rem;
+  background-color: #21ce69;
+  border: #21ce69;
+  font-weight: 600;
+  border-radius: 10px;
+  height: 40px;
+  width: 80px;
+}
+
+button:hover {
+  background-color: #21ce6996;
+  border: #21ce6996;
+  cursor: pointer;
+}
+
+output {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

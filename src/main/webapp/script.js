@@ -27,6 +27,7 @@ async function getImages(inputUrl) {
       newImage.setAttribute("src", image.imageUrl);
       newImage.setAttribute("alt", image.title);
       newSection.appendChild(newImage);
+      newSection.classList.add("imageSection");
 
       if (image.logoOrIcon) {
         let logoOrIcon = document.createElement("p");

@@ -5,27 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eulerity Crawler</title>
     <script src="script.js" defer></script>
-    <!--<link href="style.css" rel="stylesheet" type="text/css" />-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <main>
       <h1>Eulerity Take-Home Challenge: Image Scraping Web Crawler</h1>
       <p>
         The crawler will take longer for more complex sites (so please be
-        patient after clicking the button). Runtimes for specific websites are
+        patient after clicking the button). Runtimes with testing websites are
         provided in
         <b>text-links.txt</b>.
       </p>
       <p>
-        The <i>MAX_DEPTH</i> variable can also be changed in
-        <b>Crawler.java</b> to decrease/increase the number of pages you would
-        like to crawl.
+        To increase or decrease the level of depth you would like to crawl, increment or decrement the <i>MAX_DEPTH</i> 
+        variable in <b>Crawler.java</b>.
       </p>
       <p>
-        After crawling is done, the full JSON array can also be seen in the
+        Images will be displayed after crawling. The full JSON array can also be viewed from the
         console (press F12 > console).
       </p>
-      <p>Logos or icons are also specified with a caption under the image (not 100% successful).</p>
+      <p>Logos or icons are specified with a caption under the image (not 100% successful).</p>
       <p>
         Note: if duplicate images are displayed, the website has their
         logos/icons as img elements on every page.
@@ -33,11 +32,15 @@
     </main>
     <br>
     <form class="form" action="crawl" method="POST">
-      <label for="url">
-        <i>Type or paste in a full link, INCLUDING https://...</i>
-      </label>
+      <p>
+        <label for="url">
+          <i>Type or paste in a full link, INCLUDING https://...</i>
+        </label>
+      </p>
       <input type="text" name="url" id="url" />
-      <button type="submit">Submit!</button>
+      <div>
+        <button type="submit">Submit!</button>
+      </div>
     </form>
     <br>
     <div class="output"></div>

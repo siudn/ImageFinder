@@ -6,6 +6,8 @@ Eulerity project: a multithreaded image-scraping web crawler.
 > Run `mvn clean package jetty:run` instead of `mvn clean package test jetty:run`.
 > <br>
 
+Testing links with runtimes are in `test-links.txt`. Project instructions and requirements are in `oldInstructions.md`.
+
 ## Setup
 
 ### 1. Clone the repository

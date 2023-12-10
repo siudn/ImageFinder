@@ -4,6 +4,10 @@ let output = document.querySelector(".output");
 
 urlForm.addEventListener("submit", (e) => {
   e.preventDefault();
+  if (!validateLink(inputUrl.value)) {
+    alert("Please enter a proper URL (https://, no spaces, etc).");
+    return;
+  }
   output.innerHTML = ``;
   console.log(inputUrl.value);
   getImages(inputUrl.value);
@@ -42,4 +46,10 @@ async function getImages(inputUrl) {
   } catch (error) {
     console.error("Error: ", error);
   }
+}
+
+function validateLink(url) {
+  let re =
+    /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
+  return re.test(url);
 }

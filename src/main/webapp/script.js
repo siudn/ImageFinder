@@ -36,7 +36,7 @@ async function getImages(inputUrl) {
       if (image.logoOrIcon) {
         let logoOrIcon = document.createElement("p");
         logoOrIcon.innerHTML = image.logoOrIcon
-          ? "<h3>The image directly above contains logos or icons.<h3>"
+          ? "<h3>The image directly above may contain logos or icons.<h3>"
           : null;
         newSection.appendChild(logoOrIcon);
       }

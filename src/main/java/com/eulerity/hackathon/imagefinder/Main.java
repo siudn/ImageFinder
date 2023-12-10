@@ -24,7 +24,6 @@ public class Main extends HttpServlet {
 		String url = jsonObject.get("url").getAsString();
 		// parse JSON for url string
 		ArrayList<ImageData> images = new ArrayList<ImageData>();
-
 		Crawler bot = new Crawler(url, images);
 
 		try {

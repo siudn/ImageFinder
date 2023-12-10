@@ -1,43 +1,43 @@
 NOTE: Run "mvn clean package jetty:run" (not "mvn clean package test jetty:run")
 Please paste your list of test URLs below:
 
-https://time.com/ 
+https://time.com/
 (~1 second)
 https://unsplash.com/
 (~2 seconds)
-https://www.cnn.com/ 
+https://www.cnn.com/
 (~3 seconds)
-https://www.nbcnews.com/ 
+https://www.nbcnews.com/
 (~3 seconds)
 https://openai.com/
 (~4 seconds)
-https://www.usnews.com/ 
+https://www.usnews.com/
 (~4 seconds)
-https://www.espn.com/ 
+https://www.espn.com/
 (~4 seconds)
-https://www.nytimes.com/ 
+https://www.nytimes.com/
 (~4 seconds)
 https://www.yahoo.com/
 (~5 seconds)
-https://www.politico.com/ 
+https://www.politico.com/
 (~5 seconds)
-https://www.npr.org/ 
+https://www.npr.org/
 (~5 seconds)
 https://www.huffpost.com/
 (~6 seconds)
 https://www.bbc.com/news
 (~7 seconds)
-https://www.nj.com/ 
+https://www.nj.com/
 (~7 seconds)
 https://www.apple.com/
 (~8 seconds)
-https://www.cbsnews.com/ 
+https://www.cbsnews.com/
 (~8 seconds)
-https://www.foxnews.com/ 
+https://www.foxnews.com/
 (~10 seconds)
 https://www.chicagotribune.com/
 (~10 seconds)
 https://www.usatoday.com/
 (~10 seconds)
-https://abcnews.go.com/ 
+https://abcnews.go.com/
 (~13 seconds)

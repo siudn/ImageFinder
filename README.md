@@ -2,10 +2,6 @@
 
 A multithreaded image-scraping web crawler in Java, with a basic HTML/CSS/JS frontend.
 
-> [!NOTE]
-> Run `mvn clean package jetty:run` instead of `mvn clean package test jetty:run`.
-> <br>
-
 > [!WARNING]
 > [Java 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) and [Maven 3.5+](https://www.baeldung.com/install-maven-on-windows-linux-mac) are needed to run this project. It will not work with other versions of Java.
 > <br>

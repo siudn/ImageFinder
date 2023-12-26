@@ -1,6 +1,6 @@
 # ImageFinder
 
-Eulerity project: a multithreaded image-scraping web crawler.
+A multithreaded image-scraping web crawler in Java, with a basic HTML/CSS/JS frontend.
 
 > [!NOTE]
 > Run `mvn clean package jetty:run` instead of `mvn clean package test jetty:run`.
